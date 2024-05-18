@@ -28,7 +28,7 @@ const jacksonRole = ref('Member')
         </CardDescription>
       </div>
       <div class="text-right">
-        <Button variant="secondary">Invite</Button>
+        <Button size="sm" variant="secondary">Invite</Button>
       </div>
     </CardHeader>
     <CardContent class="grid gap-6">
@@ -94,8 +94,7 @@ const jacksonRole = ref('Member')
     <CarouselNext />
   </Carousel>
 
-  <div>
-
-
-  </div>
+  <Button>
+    Submit
+  </Button>
 </template>

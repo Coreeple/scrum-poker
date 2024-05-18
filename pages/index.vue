@@ -1,42 +1,33 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-vue-next'
-import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+
+const pokerTypes = [
+  { "text": "Fibonacci", "value": "fibonacci", "icon": "fibonacci.svg" },
+  { "text": "Modified Fibonacci", "value": "modified-fibonacci", "icon": "modified-fibonacci.svg" },
+  { "text": "T-Shirt Sizing", "value": "t-shirt-sizing", "icon": "t-shirt-sizing.svg" },
+
+]
+const defaultPokerType = "fibonacci"
+const pokerType = ref(defaultPokerType)
 </script>
 
 <template>
-  <div class="">
+  <div>
     <h3 class="mb-2">Select a poker type</h3>
-    <RadioGroup default-value="fibonacci" class="grid grid-cols-3 gap-4 ">
-      <div>
-        <RadioGroupItem id="fibonacci" value="fibonacci" class="peer sr-only" />
-        <Label for="fibonacci"
+    <RadioGroup v-model="pokerType" :default-value="defaultPokerType" class="grid grid-cols-3 gap-4 ">
+      <div v-for="pokerType in pokerTypes">
+        <RadioGroupItem :id="pokerType.value" :value="pokerType.value" class="peer sr-only" />
+        <Label :for="pokerType.value"
           class="flex flex-col items-center justify-between cursor-pointer rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
-          <img class="h-28 w-28 mb-2" src="~/assets/icons/fibonacci.svg" />
-          Fibonacci
-        </Label>
-      </div>
-      <div>
-        <RadioGroupItem id="modified-fibonacci" value="modified-fibonacci" class="peer sr-only" />
-        <Label for="modified-fibonacci"
-          class="flex flex-col items-center justify-between cursor-pointer rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
-          <img class="h-28 w-28 mb-2" src="~/assets/icons/modified-fibonacci.svg" />
-          Modified Fibonacci
-        </Label>
-      </div>
-      <div>
-        <RadioGroupItem id="t-shirt-sizing" value="t-shirt-sizing" class="peer sr-only" />
-        <Label for="t-shirt-sizing"
-          class="flex flex-col items-center justify-between cursor-pointer rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
-          <img class="h-28 w-28 mb-2" src="~/assets/icons/t-shirt-sizing.svg" />
-          T-Shirt Sizing
+          <NuxtImg class="h-20 w-20 mb-2" :src="pokerType.icon" />
+          {{ pokerType.text }}
         </Label>
       </div>
     </RadioGroup>
   </div>
 
   <Button>
-    <Plus class="w-4 h-4 mr-2" /> Create Room
+    Create Room
   </Button>
 </template>
