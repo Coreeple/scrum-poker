@@ -17,6 +17,12 @@ dependencies:
   clsx:
     specifier: ^2.1.1
     version: 2.1.1
+  embla-carousel:
+    specifier: ^8.1.1
+    version: 8.1.1
+  embla-carousel-vue:
+    specifier: ^8.1.1
+    version: 8.1.1(vue@3.4.27)
   lucide-vue-next:
     specifier: ^0.378.0
     version: 0.378.0(vue@3.4.27)
@@ -3466,6 +3472,28 @@ packages:
 
   /electron-to-chromium@1.4.767:
     resolution: {integrity: sha512-nzzHfmQqBss7CE3apQHkHjXW77+8w3ubGCIoEijKCJebPufREaFETgGXWTkh32t259F3Kcq+R8MZdFdOJROgYw==}
+
+  /embla-carousel-reactive-utils@8.1.1(embla-carousel@8.1.1):
+    resolution: {integrity: sha512-zlsaorYN56qtoXoVNw8hA/IbUjxq0pdggZpl9b5V2Cxvrd47ZSL5Lat7GgC+kgyUEdEocP1iOmw5+vpCX9rZPA==}
+    peerDependencies:
+      embla-carousel: 8.1.1
+    dependencies:
+      embla-carousel: 8.1.1
+    dev: false
+
+  /embla-carousel-vue@8.1.1(vue@3.4.27):
+    resolution: {integrity: sha512-McST6/RoJ3+ilX+q+djxDK+EeINaEVpU+Uci+EGWT3x6D/dIVOLeHuUOniX8ap3EmlPzfRNEOdHdlgTGF4zF2g==}
+    peerDependencies:
+      vue: ^3.2.37
+    dependencies:
+      embla-carousel: 8.1.1
+      embla-carousel-reactive-utils: 8.1.1(embla-carousel@8.1.1)
+      vue: 3.4.27(typescript@5.4.5)
+    dev: false
+
+  /embla-carousel@8.1.1:
+    resolution: {integrity: sha512-PfdhNbPoNl7V5YnwuKe2zmKd0+/HY+Q4O59xQcVvinsgv2LkpAVQ1NB/q5STqAde8nZ56U2uQOe6X+9u4IZlhA==}
+    dev: false
 
   /emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}

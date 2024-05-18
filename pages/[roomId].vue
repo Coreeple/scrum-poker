@@ -2,6 +2,8 @@
 import { Button } from '@/components/ui/button'
 import { Plus, Smile, Check, ChevronsUpDown } from 'lucide-vue-next'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 
 import {
   Card,
@@ -73,4 +75,27 @@ const jacksonRole = ref('Member')
   <Button>
     Open
   </Button>
+  
+  <Carousel class="relative w-full max-w-md" :opts="{
+    align: 'start',
+  }">
+    <CarouselContent>
+      <CarouselItem v-for="(_, index) in 13" :key="index" class="md:basis-1/2 lg:basis-1/4">
+        <div class="p-1">
+          <Card>
+            <CardContent class="flex h-32 items-center justify-center p-0">
+              <span class="text-3xl font-semibold">{{ index + 1 }}</span>
+            </CardContent>
+          </Card>
+        </div>
+      </CarouselItem>
+    </CarouselContent>
+    <CarouselPrevious />
+    <CarouselNext />
+  </Carousel>
+
+  <div>
+
+
+  </div>
 </template>
