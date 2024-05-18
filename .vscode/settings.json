@@ -6,6 +6,7 @@
     "Nuxt",
     "nuxtjs",
     "shadcn",
-    "tailwindcss"
+    "tailwindcss",
+    "trpc"
   ]
 }

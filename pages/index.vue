@@ -1,4 +1,8 @@
 <script setup lang="ts">
+const { $trpcClient } = useNuxtApp();
+
+
+
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
@@ -10,6 +14,10 @@ const pokerTypes = [
 ]
 const defaultPokerType = "fibonacci"
 const pokerType = ref(defaultPokerType)
+
+const { data } = await $trpcClient.users.get.useQuery({})
+
+console.log(data.value?.users[0])
 </script>
 
 <template>

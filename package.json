@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@nuxt/image": "^1.7.0",
+    "@prisma/client": "5.14.0",
+    "@trpc/client": "^10.45.2",
+    "@trpc/server": "^10.45.2",
     "@vee-validate/zod": "^4.12.8",
     "@vueuse/core": "^10.9.0",
     "class-variance-authority": "^0.7.0",
@@ -24,6 +27,7 @@
     "shadcn-nuxt": "^0.10.4",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "trpc-nuxt": "^0.10.21",
     "vee-validate": "^4.12.8",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2",
@@ -31,6 +35,7 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.0",
+    "prisma": "^5.14.0",
     "typescript": "^5.4.5"
   }
 }
