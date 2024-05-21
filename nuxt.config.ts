@@ -2,6 +2,11 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt", "nuxt-build-cache", "@nuxt/image"],
+  nitro: {
+    experimental: {
+      websocket: true
+    }
+  },
   build: {
     transpile: ['trpc-nuxt']
   },
