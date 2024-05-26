@@ -2,6 +2,8 @@
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
+- https://nuxt.com/
+- https://nitro.unjs.io/
 - https://flaviocopes.com/macos-install-ssl-local/
 
 ## Setup

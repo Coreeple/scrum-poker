@@ -17,8 +17,8 @@ const pokerType = ref(defaultPokerType)
 
 <template>
   <div>
-    <WebSocket />
-    <WebSocket />
+    <WebSocket :idiot="true" />
+    <WebSocket :idiot="false"/>
     <h3 class="mb-2">Select a poker type</h3>
     <RadioGroup v-model="pokerType" :default-value="defaultPokerType" class="grid grid-cols-3 gap-4 ">
       <div v-for="pokerType in pokerTypes">

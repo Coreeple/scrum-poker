@@ -1,52 +1,85 @@
 export default defineWebSocketHandler({
   open(peer) {
-    const roomId = getRoomId(peer)
-    peer.subscribe(roomId)
+    const params = getParams(peer)
 
-    createRoom(roomId)
-    addUser(roomId, peer.id)
+    peer.subscribe(params.roomId)
+
+    if (!params.idiot) {
+      addUser(params.roomId, peer.id, params.userId)
+    }
   },
 
   close(peer) {
-    const roomId = getRoomId(peer)
-    removeUser(roomId, peer.id)
+    const params = getParams(peer)
+
+    // removeUser(params.roomId, params.userId)
   },
 
-  error(peer, _) {
-    const roomId = getRoomId(peer)
-    removeUser(roomId, peer.id)
-  },
-
-  message(peer, message) {
-
+  async message(peer, message) {
     if (message.text() === "ping") {
       peer.send("pong")
     }
 
-    const roomId = getRoomId(peer)
+    const params = getParams(peer)
+    const users = await getUsers(params.roomId)
 
-
-    peer.publish(roomId, rooms)
+    peer.publish(params.roomId, users)
   }
 })
 
-const rooms: any = {}
+const storage = () => {
+  return useStorage('rooms')
+}
 
-const createRoom = (roomId: string) => {
-  if (!rooms[roomId]) {
-    rooms[roomId] = {}
+const getUsers = async (roomId: string) => {
+  const store = storage()
+  const users = await store.getItem<any>(roomId)
+
+  return JSON.stringify(Object.values(users))
+}
+
+const addUser = async (roomId: string, peerId: string, userId: string) => {
+  const store = storage()
+  const hasRoom = await store.hasItem(roomId)
+
+  if (hasRoom) {
+    const users = await store.getItem<any>(roomId)
+    const userCount = Object.keys(users).length
+
+    users[userId] = {
+      id: userCount + 1,
+      moderator: false,
+      ...users[userId],
+      status: 'connected',
+    }
+
+    await store.setItem(roomId, users)
+  } else {
+    await store.setItem<any>(roomId, {
+      [userId]: {
+        id: 1,
+        moderator: true,
+        status: 'connected',
+      }
+    })
   }
 }
 
-const addUser = (roomId: string, peerId: string) => {
-  rooms[roomId][peerId] = {}
+const removeUser = async (roomId: string, userId: string) => {
+  const store = storage()
+  const users = await store.getItem<any>(roomId)
+
+  delete users[userId]
+
+  await store.setItem(roomId, users)
 }
 
-const removeUser = (roomId: string, peerId: string) => {
-  delete rooms[roomId][peerId]
-}
+const getParams = (peer: any) => {
+  const url = new URL(peer.ctx.node.req.url, `https://${peer.ctx.node.req.headers.host}`)
 
-const getRoomId = (peer: any): string => {
-  return new URL(peer.ctx.node.req.url, `https://${peer.ctx.node.req.headers.host}`)
-    .searchParams.get('room')!
+  return {
+    roomId: url.searchParams.get('roomId')!,
+    userId: url.searchParams.get('userId')!,
+    idiot: url.searchParams.get('idiot') !== null,
+  }
 }

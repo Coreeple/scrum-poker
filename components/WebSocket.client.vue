@@ -1,9 +1,19 @@
 <script setup lang="ts">
 import { useWebSocket } from '@vueuse/core';
+import { v4 as uuidv4 } from 'uuid';
+import { getData, setData } from 'nuxt-storage/local-storage';
 
+const props = defineProps<{
+  idiot: boolean
+}>()
 
-// In prod: check if secure, then use wss://
-const { status, data, send, open, close } = useWebSocket(`wss://${location.host}/_ws?room=123`, {
+if (!getData('userId')) {
+  setData('userId', uuidv4());
+}
+
+const userId = getData('userId')
+
+const { status, data, send, open, close } = useWebSocket(`wss://${location.host}/_ws?roomId=123&userId=${userId}${props.idiot ? '&idiot' : ''}`, {
   autoReconnect: {
     retries: 3,
     delay: 3000,
@@ -18,29 +28,23 @@ const { status, data, send, open, close } = useWebSocket(`wss://${location.host}
   },
 })
 
-const roomInfo = ref<string>("")
+const users = ref<[]>([])
 
-watch(data, (newValue) => {
-  console.log(data.value)
-  if(data.value !== "pong"){
-    roomInfo.value = data.value
+watch(data, () => {
+  if (data.value !== "pong") {
+    users.value = JSON.parse(data.value)
   }
 })
 
-const message = ref('')
-function sendData() {
-  console.log("ok")
-  send(message.value)
-}
 </script>
 
 <template>
-  <div>
-    {{ status }} <br> {{ roomInfo }}
-    <h1>WebSocket - let's go!</h1>
-    <form @submit.prevent="sendData">
-      <input v-model="message">
-      <button type="submit">Send</button>
-    </form>
+  <div v-if="!idiot">
+    <div v-if="status !== 'OPEN' || users.length === 0">
+      Loading...
+    </div>
+    <div v-else>
+      {{ status }} <br> {{ users }}
+    </div>
   </div>
 </template>
