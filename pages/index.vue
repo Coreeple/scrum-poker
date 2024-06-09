@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { v4 as uuidv4 } from 'uuid';
+import { useStorage } from '@vueuse/core'
 
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -12,13 +14,38 @@ const pokerTypes = [
 const defaultPokerType = "fibonacci"
 const pokerType = ref(defaultPokerType)
 
+const roomId = ref<string | null>()
+
+const state = useStorage('playerId', uuidv4())
+
+
+
+const createRoom = async () => {
+  const { data } = await useFetch('/api/rooms/create', {
+    method: 'POST', body: {
+      pokerType: pokerType.value,
+      playerId: '123'
+    }
+  })
+
+  roomId.value = data.value
+}
+
+const getRoom = async () => {
+  const { data } = await useFetch(`/api/rooms/${roomId.value}`)
+
+  console.log(data)
+}
+
+const onMounted = () => {
+  console.log('mounted')
+}
 
 </script>
 
 <template>
   <div>
-    <WebSocket :idiot="true" />
-    <WebSocket :idiot="false"/>
+    {{ state }}
     <h3 class="mb-2">Select a poker type</h3>
     <RadioGroup v-model="pokerType" :default-value="defaultPokerType" class="grid grid-cols-3 gap-4 ">
       <div v-for="pokerType in pokerTypes">
@@ -32,7 +59,11 @@ const pokerType = ref(defaultPokerType)
     </RadioGroup>
   </div>
 
-  <Button>
+  <Button @click="createRoom">
     Create Room
+  </Button>
+
+  <Button @click="getRoom">
+    Get Room
   </Button>
 </template>
